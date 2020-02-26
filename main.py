@@ -4,6 +4,7 @@
 # Date: 28 February 2020
 
 import matplotlib.pyplot as plt
+import numpy as numpy
 
 
 fibx = [8, 10, 12, 14, 16, 18, 20]
@@ -35,7 +36,7 @@ def fibAdds(n):
 def PlotFib():
     for i in range(len(fibx)):
         Fib(fibx[i])
-        fiby[i] = count
+        fiby[i] = fibAdds(fibx[i])
 
     plt.xlabel("Fibonacci numbers calculated")
     plt.ylabel("Number of additions done")
@@ -160,7 +161,7 @@ def PlotInsertSort():
     # plt.show()
 
 
-def InsetionSort(arr):
+def InsertionSort(arr):
     for i in range(1, len(arr)):
         key = arr[i]
         j = i - 1
@@ -169,17 +170,58 @@ def InsetionSort(arr):
             j -= 1
         arr[j + 1] = key
 
+def instructions():
+    print("Type f for Fibonnaci function.\n")
+    print("Type g for GCD function.\n")
+    print("Type e for Exponentiation functions.\n"
+          "   (Decrease-by-One, Decrease-by-Constant-Factor, and Divide-and-Conquer")
+    print("Type s for sorting functions.\n"
+          "  (Insertion & Selection Sort)\n")
+    print("Type x to exit the program.\n")
+
+def getOutput(i):
+    if i == 'f':
+        k = int(input("Input kth value of Fibonacci algorithm: "))
+        print("kth value of Fibonacci: ", Fib(k), "\n")
+
+    elif i == 'g':
+        k = int(input("Input kth value of Fibonacci \n"
+                      "algorithm to get GCD: "))
+        print("GCD of k and k-1: ", Euclids(k, k-1), "\n")
+
+    elif i == 'e':
+        a = int(input("Input constant: "))
+        n = int(input("Input exponent: "))
+        print("Decrease-by-One: ", DecreaseByOne(a, n), "\n")
+        print("Decrease-by-Constant: ", DecreaseByConstant(a, n), "\n")
+        print("Divide-and-Conquer: ", DivideConquer(a, n), "\n")
+
+    elif i == 's':
+        n = int(input("Input array size: "))
+        arr = [int(j) for j in input("Input n numbers in any order: ").split()]
+        arr1 = arr
+        InsertionSort(arr)
+        SelectionSort(arr1)
+        print("Selection Sort: ", arr1)
+        print("Insertion Sort: ", arr)
+
+
 
 def main():
-    uInput = int(input("Input number: "))
 
-    print("Fibonacci: ")
-    print(Fib(uInput))
+    instructions()
 
-    print("Fibonacci Additions: ")
-    print(fibAdds(uInput))
+    uInput = input("Input: ")
 
+    while numpy.lower(uInput) != "exit":
+        if type(uInput) != str:
+            print("Please type one of the letters to access the functions: ")
+            pass
 
+        else:
+            getOutput(uInput)
 
+        instructions()
+        uInput = input("Input: ")
 
 main()
