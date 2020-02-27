@@ -4,52 +4,38 @@
 # Date: 28 February 2020
 
 import matplotlib.pyplot as plt
-import numpy as numpy
+import time
 
+FibValues = []
+Euclid = []
+Exponent = []
 
-fibx = [8, 10, 12, 14, 16, 18, 20]
-fiby = [1, 2, 3, 4, 5, 6, 7]
-
-FibonacciValues = [0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233, 377, 610, 987, 1597, 2584, 4181, 6765, 10946,
-                   17711, 28657, 46368, 75025, 121393]
-EucX = [4, 6, 8, 10, 12, 16, 18, 20]
-EucY = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-
-ExpX = [3, 6, 9, 12, 15, 18, 21, 24, 27, 30]
-ExpY = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-
-
-def Fib(n):
+def Fibonacci(n):
     if n <= 1:
         return n
-    else:
-        return Fib(n - 1) + Fib(n - 2)
-
+    return Fibonacci(n - 1) + Fibonacci(n - 2)
 
 def fibAdds(n):
     if n <= 1:
-        return n
-    else:
-        return fibAdds(n-1) + fibAdds(n-2) + 1
+        return 1
+    return fibAdds(n-1) + fibAdds(n-2)
 
 
-def PlotFib():
-    for i in range(len(fibx)):
-        Fib(fibx[i])
-        fiby[i] = fibAdds(fibx[i])
+def PlotFib(n):
+    for i in range(n):
+        FibonacciValues
+        fiby[i] = count
 
     plt.xlabel("Fibonacci numbers calculated")
-    plt.ylabel("Number of additions done")
+    plt.ylabel("Number of additions done\n")
     plt.plot(fibx, fiby)
     plt.show()
 
 
 def Euclids(a, b):
-    global count
     if (b == 0):
         return a
     else:
-        count += 1
         return Euclids(b, a % b)
 
 
@@ -171,18 +157,19 @@ def InsertionSort(arr):
         arr[j + 1] = key
 
 def instructions():
-    print("Type f for Fibonnaci function.\n")
-    print("Type g for GCD function.\n")
-    print("Type e for Exponentiation functions.\n"
+    print("Type f for Fibonnaci function.")
+    print("Type g for GCD function.")
+    print("Type e for Exponentiation functions."
           "   (Decrease-by-One, Decrease-by-Constant-Factor, and Divide-and-Conquer")
-    print("Type s for sorting functions.\n"
+    print("Type s for sorting functions."
           "  (Insertion & Selection Sort)\n")
     print("Type x to exit the program.\n")
 
 def getOutput(i):
     if i == 'f':
         k = int(input("Input kth value of Fibonacci algorithm: "))
-        print("kth value of Fibonacci: ", Fib(k), "\n")
+        print("kth value of Fibonacci: ", Fibonacci(k))
+        print("Number of Adds: ", count, "\n")
 
     elif i == 'g':
         k = int(input("Input kth value of Fibonacci \n"
@@ -192,9 +179,9 @@ def getOutput(i):
     elif i == 'e':
         a = int(input("Input constant: "))
         n = int(input("Input exponent: "))
-        print("Decrease-by-One: ", DecreaseByOne(a, n), "\n")
-        print("Decrease-by-Constant: ", DecreaseByConstant(a, n), "\n")
-        print("Divide-and-Conquer: ", DivideConquer(a, n), "\n")
+        print("Decrease-by-One: ", DecreaseByOne(a, n))
+        print("Decrease-by-Constant: ", DecreaseByConstant(a, n))
+        print("Divide-and-Conquer: ", DivideConquer(a, n))
 
     elif i == 's':
         n = int(input("Input array size: "))
@@ -208,20 +195,22 @@ def getOutput(i):
 
 
 def main():
+    print(Fibonacci(3))
+    print(fibAdds(3))
 
-    instructions()
+    #instructions()
 
-    uInput = input("Input: ")
+    #uInput = input("Input: ")
 
-    while numpy.lower(uInput) != "exit":
-        if type(uInput) != str:
-            print("Please type one of the letters to access the functions: ")
-            pass
+    #while uInput.lower() != "x":
+        #if type(uInput) != str:
+            #print("Please type one of the letters to access the functions: ")
 
-        else:
-            getOutput(uInput)
+        #else:
+            #getOutput(uInput)
 
-        instructions()
-        uInput = input("Input: ")
+        #time.sleep(3)
+        #instructions()
+        #uInput = input("Input: ")
 
 main()
