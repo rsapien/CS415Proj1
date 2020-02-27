@@ -22,9 +22,10 @@ def fibAdds(n):
 
 
 def PlotFib(n):
+    fiby = []
     for i in range(n):
         FibonacciValues
-        fiby[i] = count
+        fiby.append(i)
 
     plt.xlabel("Fibonacci numbers calculated")
     plt.ylabel("Number of additions done\n")
