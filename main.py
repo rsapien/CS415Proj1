@@ -39,6 +39,27 @@ def Euclids(a, b):
     else:
         return Euclids(b, a % b)
 
+def ComputeEuc(a, b):
+    if (b == 0):
+        return 0
+    else:
+        return Euclids(b, a % b) + 1
+
+def PlotEuc(n):
+    EucX = []
+    EucY = []
+    i = 1
+    for i in range(n):
+        a = Fibonacci(i)
+        b = Fibonacci(i-1)
+        count = ComputeEuc(a, b)
+        EucY.append(count)
+        EucX.append(a)
+
+    plt.xlabel("Euclid's numbers calculated")
+    plt.ylabel("Number of divisons")
+    plt.plot(EucX, EucY)
+
 
 def DecreaseByOne(a, n):
     global count
@@ -62,17 +83,20 @@ def PlotEx1():
     plt.show()
 
 
+def ComputeDBC(a, n):
+    if n == 0:
+        return 0
+    elif n % 2 == 0:
+        return (DecreaseByOne(a, n / 2)) + 1
+    return (DecreaseByOne(a, (n - 1) / 2)) + 2
+
 def DecreaseByConstant(a, n):
-    global count
     if n <= 0:
         return 1
     elif n % 2 == 0:
-        count += 1
         return DecreaseByOne(a, n / 2) ** 2
     else:
-        count += 2
         return a * DecreaseByOne(a, (n - 1) / 2) ** 2
-
 
 def PlotEx2():
     global count
