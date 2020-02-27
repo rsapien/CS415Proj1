@@ -232,8 +232,17 @@ def getOutput(i):
 
 
 def main():
-    print(Fibonacci(3))
-    print(fibAdds(3))
+    print("Fibonacci: ")
+    print(Fibonacci(5))
+    print(fibAdds(5))
+    #PlotFib(20)
+
+    print("DBO: ")
+    print(decreaseByOne(2, 5))
+    print(dboMuls(2, 5))
+    plotDBO(10)
+
+
 
     #instructions()
 
