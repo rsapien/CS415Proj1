@@ -89,16 +89,16 @@ def ComputeDBC(a, n):
     if n == 0:
         return 0
     elif n % 2 == 0:
-        return (ComputeDBC(a, n / 2)) + 1
-    return (ComputeDBC(a, (n - 1) / 2)) + 2
+        return (DecreaseByOne(a, n / 2)) + 1
+    return (DecreaseByOne(a, (n - 1) / 2)) + 2
 
 def DecreaseByConstant(a, n):
     if n <= 0:
         return 1
     elif n % 2 == 0:
-        return DecreaseByConstant(a, n / 2) ** 2
+        return DecreaseByOne(a, n / 2) ** 2
     else:
-        return a * (DecreaseByConstant(a, (n - 1) / 2) ** 2)
+        return a * DecreaseByOne(a, (n - 1) / 2) ** 2
 
 def PlotEx2():
     global count
@@ -149,6 +149,7 @@ def PlotEx3():
 
 
 def SelectionSort(A):
+    global count
     for i in range(len(A)):
         min_idx = i
         for j in range(i + 1, len(A)):
@@ -156,15 +157,6 @@ def SelectionSort(A):
                 min_idx = j
         A[i], A[min_idx] = A[min_idx], A[i]
 
-def ComputeSS(A):
-    count = 0
-    for i in range(len(A)):
-        min_idx = i
-        for j in range(i + 1, len(A)):
-            if A[min_idx] > A[j]:
-                count += 1
-                min_idx = j
-        A[i], A[min_idx] = A[min_idx], A[i]
 
 def PlotSelection():
     global count
@@ -180,6 +172,7 @@ def PlotSelection():
 
 
 def PlotInsertSort():
+    global count
     for i in range(len(fibx)):
         count = 0
         Fibonacci(fibx[i])
@@ -191,14 +184,14 @@ def PlotInsertSort():
     # plt.show()
 
 
-def InsertionSort(A):
-    for i in range(1, len(A)):
-        key = A[i]
+def InsertionSort(arr):
+    for i in range(1, len(arr)):
+        key = arr[i]
         j = i - 1
-        while j >= 0 and key < A[j]:
-            A[j + 1] = A[j]
+        while j >= 0 and key < arr[j]:
+            arr[j + 1] = arr[j]
             j -= 1
-        A[j + 1] = key
+        arr[j + 1] = key
 
 def instructions():
     print("Type f for Fibonnaci function.")
