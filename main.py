@@ -6,10 +6,6 @@
 import matplotlib.pyplot as plt
 import time
 
-FibValues = []
-Euclid = []
-Exponent = []
-
 def Fibonacci(n):
     if n <= 1:
         return n
@@ -17,19 +13,22 @@ def Fibonacci(n):
 
 def fibAdds(n):
     if n <= 1:
-        return 1
-    return fibAdds(n-1) + fibAdds(n-2)
+        return 0
+    return fibAdds(n-1) + fibAdds(n-2) + 1
 
 
 def PlotFib(n):
+    FibValues = []
     fiby = []
     for i in range(n):
-        FibonacciValues
-        fiby.append(i)
+        FibValues.append(Fibonacci(i))
+        fiby.append(fibAdds(i))
 
+    print("FibValues: ", FibValues)
+    print("fiby: ", fiby)
     plt.xlabel("Fibonacci numbers calculated")
     plt.ylabel("Number of additions done\n")
-    plt.plot(fibx, fiby)
+    plt.plot(FibValues, fiby)
     plt.show()
 
 
@@ -61,25 +60,28 @@ def PlotEuc(n):
     plt.plot(EucX, EucY)
 
 
-def DecreaseByOne(a, n):
-    global count
+def decreaseByOne(a, n):
     if n <= 0:
         return 1
-    else:
-        count += 1
-        return a * DecreaseByOne(a, n - 1)
+    return a * decreaseByOne(a, n - 1)
+
+def dboMuls(a, n):
+    if n <= 0:
+        return 0
+    return a * dboMuls(a, n - 1) + 1
 
 
-def PlotEx1():
-    global count
-    for i in range(len(ExpX)):
-        count = 0
-        DecreaseByOne(i, ExpX[i])
-        ExpY[i] = count
+def plotDBO(n):
+    numMuls = []
+    dbo = []
 
-    plt.xlabel("Decrease-By-One calculated")
-    plt.ylabel("Number of multiplications done")
-    plt.plot(ExpX, ExpY)
+    for i in range(n):
+        dbo.append(decreaseByOne(2, i))
+        numMuls.append(dboMuls(2, i))
+
+    plt.xlabel("Decrease-By-One")
+    plt.ylabel("Decrease-By-One Multiplications")
+    plt.plot(dbo, numMuls)
     plt.show()
 
 
@@ -112,15 +114,25 @@ def PlotEx2():
 
 
 def DivideConquer(a, n):
-    global count
     if n <= 0:
         return 1
     elif n % 2 == 0:
         count += 1
-        return DecreaseByOne(a, n / 2) * DecreaseByOne(a, n / 2)
+        return decreaseByOne(a, n / 2) * decreaseByOne(a, n / 2)
     else:
         count += 1
-        return a * DecreaseByOne(a, (n - 1) / 2) * DecreaseByOne(a, (n - 1) / 2)
+        return a * decreaseByOne(a, (n - 1) / 2) * decreaseByOne(a, (n - 1) / 2)
+
+def DCmuls(a, n):
+    if n <= 0:
+        return 1
+    elif n % 2 == 0:
+        count += 1
+        return decreaseByOne(a, n / 2) * decreaseByOne(a, n / 2)
+    else:
+        count += 1
+        return a * decreaseByOne(a, (n - 1) / 2) * decreaseByOne(a, (n - 1) / 2)
+
 
 
 def PlotEx3():
@@ -204,7 +216,7 @@ def getOutput(i):
     elif i == 'e':
         a = int(input("Input constant: "))
         n = int(input("Input exponent: "))
-        print("Decrease-by-One: ", DecreaseByOne(a, n))
+        print("Decrease-by-One: ", decreaseByOne(a, n))
         print("Decrease-by-Constant: ", DecreaseByConstant(a, n))
         print("Divide-and-Conquer: ", DivideConquer(a, n))
 
