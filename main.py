@@ -1,4 +1,3 @@
-
 # Project 1 - Asymptotic Analysis of Algorithms
 # Creators: Robert Sapien & Vince Bjazevic
 # Date: 28 February 2020
@@ -6,15 +5,18 @@
 import matplotlib.pyplot as plt
 import time
 
+counter = 0
+
 def Fibonacci(n):
     if n <= 1:
         return n
     return Fibonacci(n - 1) + Fibonacci(n - 2)
 
+
 def fibAdds(n):
     if n <= 1:
         return 0
-    return fibAdds(n-1) + fibAdds(n-2) + 1
+    return fibAdds(n - 1) + fibAdds(n - 2) + 1
 
 
 def PlotFib(n):
@@ -38,11 +40,13 @@ def Euclids(a, b):
     else:
         return Euclids(b, a % b)
 
+
 def ComputeEuc(a, b):
     if (b == 0):
         return 0
     else:
         return Euclids(b, a % b) + 1
+
 
 def PlotEuc(n):
     EucX = []
@@ -50,7 +54,7 @@ def PlotEuc(n):
     i = 1
     for i in range(n):
         a = Fibonacci(i)
-        b = Fibonacci(i-1)
+        b = Fibonacci(i - 1)
         count = ComputeEuc(a, b)
         EucY.append(count)
         EucX.append(a)
@@ -64,6 +68,7 @@ def decreaseByOne(a, n):
     if n <= 0:
         return 1
     return a * decreaseByOne(a, n - 1)
+
 
 def dboMuls(a, n):
     if n <= 0:
@@ -89,94 +94,88 @@ def ComputeDBC(a, n):
     if n == 0:
         return 0
     elif n % 2 == 0:
-        return (DecreaseByOne(a, n / 2)) + 1
-    return (DecreaseByOne(a, (n - 1) / 2)) + 2
+        return (ComputeDBC(a, n / 2)) + 2
+    return (ComputeDBC(a, (n - 1) / 2)) + 2
 
-def DecreaseByConstant(a, n):
+
+def decreaseByConstant(a, n):
     if n <= 0:
         return 1
     elif n % 2 == 0:
-        return DecreaseByOne(a, n / 2) ** 2
+        return decreaseByConstant(a, n / 2) ** 2
     else:
-        return a * DecreaseByOne(a, (n - 1) / 2) ** 2
-
-def PlotEx2():
-    global count
-    for i in range(len(fibx)):
-        count = 0
-        Fibonacci(fibx[i])
-        fiby[i] = count
-
-    # plt.xlabel("Fibonacci numbers calculated")
-    # plt.ylabel("Number of additions done")
-    # plt.plot(fibx, fiby)
-    # plt.show()
+        return a * (decreaseByConstant(a, (n - 1) / 2) ** 2)
 
 
-def DivideConquer(a, n):
-    if n <= 0:
+def plotDBC(n):
+    numMuls = []
+    dbc = []
+
+    for i in range(n):
+        #dbc.append(decreaseByConstant(2, i))
+        dbc.append(i)
+        numMuls.append(ComputeDBC(2, i))
+
+    plt.xlabel("Decrease-By-Constant")
+    plt.ylabel("Decrease-By-Constant Multiplications")
+    plt.plot(dbc, numMuls)
+    plt.show()
+
+
+def divideConquer(a, n):
+    if n == 0:
         return 1
     elif n % 2 == 0:
-        count += 1
-        return decreaseByOne(a, n / 2) * decreaseByOne(a, n / 2)
+        return divideConquer(a, n / 2) * divideConquer(a, n / 2)
     else:
-        count += 1
-        return a * decreaseByOne(a, (n - 1) / 2) * decreaseByOne(a, (n - 1) / 2)
+        return a * divideConquer(a, (n - 1) / 2) * divideConquer(a, (n - 1) / 2)
 
-def DCmuls(a, n):
-    if n <= 0:
-        return 1
+
+def computeDivC(a, n):
+    if n == 0:
+        return 0
     elif n % 2 == 0:
-        count += 1
-        return decreaseByOne(a, n / 2) * decreaseByOne(a, n / 2)
+        return computeDivC(a, n / 2) + 1
     else:
-        count += 1
-        return a * decreaseByOne(a, (n - 1) / 2) * decreaseByOne(a, (n - 1) / 2)
+        return computeDivC(a, (n - 1) / 2) + 2
 
 
+def plotDivC(n):
+    numMuls = []
+    divC = []
 
-def PlotEx3():
-    global count
-    for i in range(len(fibx)):
-        count = 0
-        Fibonacci(fibx[i])
-        fiby[i] = count
+    for i in range(n):
+        #divC.append(divideConquer(2, i))
+        divC.append(i)
+        numMuls.append(computeDivC(2, i))
 
-    # plt.xlabel("Fibonacci numbers calculated")
-    # plt.ylabel("Number of additions done")
-    # plt.plot(fibx, fiby)
-    # plt.show()
+    plt.xlabel("Divide-and-Conquer")
+    plt.ylabel("Divide-and-Conquer Multiplications")
+    plt.plot(divC, numMuls)
+    plt.show()
+
 
 
 def SelectionSort(A):
-    global count
+    incr = 0
     for i in range(len(A)):
         min_idx = i
         for j in range(i + 1, len(A)):
             if A[min_idx] > A[j]:
                 min_idx = j
+            incr += 1
         A[i], A[min_idx] = A[min_idx], A[i]
 
 
 def PlotSelection():
-    global count
-    for i in range(len(fibx)):
-        count = 0
-        Fibonacci(fibx[i])
-        fiby[i] = count
-
-    # plt.xlabel("Fibonacci numbers calculated")
-    # plt.ylabel("Number of additions done")
-    # plt.plot(fibx, fiby)
-    # plt.show()
-
+    pass
 
 def PlotInsertSort():
     global count
-    for i in range(len(fibx)):
-        count = 0
-        Fibonacci(fibx[i])
-        fiby[i] = count
+    # for i in range(len(fibx)):
+    #   count = 0
+    #  Fibonacci(fibx[i])
+    # fiby[i] = count
 
     # plt.xlabel("Fibonacci numbers calculated")
     # plt.ylabel("Number of additions done")
@@ -193,6 +192,7 @@ def InsertionSort(arr):
             j -= 1
         arr[j + 1] = key
 
+
 def instructions():
     print("Type f for Fibonnaci function.")
     print("Type g for GCD function.")
@@ -201,6 +201,7 @@ def instructions():
     print("Type s for sorting functions."
           "  (Insertion & Selection Sort)\n")
     print("Type x to exit the program.\n")
+
 
 def getOutput(i):
     if i == 'f':
@@ -211,14 +212,14 @@ def getOutput(i):
     elif i == 'g':
         k = int(input("Input kth value of Fibonacci \n"
                       "algorithm to get GCD: "))
-        print("GCD of k and k-1: ", Euclids(k, k-1), "\n")
+        print("GCD of k and k-1: ", Euclids(k, k - 1), "\n")
 
     elif i == 'e':
         a = int(input("Input constant: "))
         n = int(input("Input exponent: "))
         print("Decrease-by-One: ", decreaseByOne(a, n))
-        print("Decrease-by-Constant: ", DecreaseByConstant(a, n))
-        print("Divide-and-Conquer: ", DivideConquer(a, n))
+        print("Decrease-by-Constant: ", decreaseByConstant(a, n))
+        print("Divide-and-Conquer: ", divideConquer(a, n))
 
     elif i == 's':
         n = int(input("Input array size: "))
@@ -230,33 +231,40 @@ def getOutput(i):
         print("Insertion Sort: ", arr)
 
 
-
 def main():
     print("Fibonacci: ")
     print(Fibonacci(5))
     print(fibAdds(5))
-    #PlotFib(20)
+    PlotFib(20)
 
     print("DBO: ")
     print(decreaseByOne(2, 5))
     print(dboMuls(2, 5))
-    plotDBO(10)
+    plotDBO(50)
 
+    print("DBC: ")
+    print(decreaseByConstant(2, 5))
+    print(ComputeDBC(2, 5))
+    plotDBC(50)
 
+    print("DAC: ")
+    print(divideConquer(2, 5))
+    print(computeDivC(2, 5))
+    plotDivC(200)
+    # instructions()
 
-    #instructions()
+    # uInput = input("Input: ")
 
-    #uInput = input("Input: ")
+    # while uInput.lower() != "x":
+    # if type(uInput) != str:
+    # print("Please type one of the letters to access the functions: ")
 
-    #while uInput.lower() != "x":
-        #if type(uInput) != str:
-            #print("Please type one of the letters to access the functions: ")
+    # else:
+    # getOutput(uInput)
 
-        #else:
-            #getOutput(uInput)
+    # time.sleep(3)
+    # instructions()
+    # uInput = input("Input: ")
 
-        #time.sleep(3)
-        #instructions()
-        #uInput = input("Input: ")
 
 main()
