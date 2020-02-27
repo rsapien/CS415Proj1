@@ -38,7 +38,7 @@ def Euclids(a, b):
     else:
         return Euclids(b, a % b)
 
-def ComputeEuc(a, b):
+def Mods(a, b):
     if (b == 0):
         return 0
     else:
@@ -51,7 +51,7 @@ def PlotEuc(n):
     for i in range(n):
         a = Fibonacci(i)
         b = Fibonacci(i-1)
-        count = ComputeEuc(a, b)
+        count = Mods(a, b)
         EucY.append(count)
         EucX.append(a)
 
@@ -89,16 +89,15 @@ def ComputeDBC(a, n):
     if n == 0:
         return 0
     elif n % 2 == 0:
-        return (DecreaseByOne(a, n / 2)) + 1
-    return (DecreaseByOne(a, (n - 1) / 2)) + 2
+        return (decreaseByOne(a, n / 2)) + 1
+    return (decreaseByOne(a, (n - 1) / 2)) + 2
 
 def DecreaseByConstant(a, n):
     if n <= 0:
         return 1
     elif n % 2 == 0:
-        return DecreaseByOne(a, n / 2) ** 2
-    else:
-        return a * DecreaseByOne(a, (n - 1) / 2) ** 2
+        return decreaseByOne(a, n / 2) ** 2
+    return a * decreaseByOne(a, (n - 1) / 2) ** 2
 
 def PlotEx2():
     global count
@@ -113,34 +112,27 @@ def PlotEx2():
     # plt.show()
 
 
-def DivideConquer(a, n):
+def divideConquer(a, n):
     if n <= 0:
         return 1
     elif n % 2 == 0:
-        count += 1
-        return decreaseByOne(a, n / 2) * decreaseByOne(a, n / 2)
-    else:
-        count += 1
-        return a * decreaseByOne(a, (n - 1) / 2) * decreaseByOne(a, (n - 1) / 2)
+        return divideConquer(a, n / 2) * divideConquer(a, n / 2)
+    return a * divideConquer(a, n / 2) * divideConquer(a, n / 2)
 
-def DCmuls(a, n):
+def dcMuls(a, n):
     if n <= 0:
-        return 1
+        return 0
     elif n % 2 == 0:
-        count += 1
-        return decreaseByOne(a, n / 2) * decreaseByOne(a, n / 2)
-    else:
-        count += 1
-        return a * decreaseByOne(a, (n - 1) / 2) * decreaseByOne(a, (n - 1) / 2)
+        return divideConquer(a, n / 2) * divideConquer(a, n / 2) + 1
+    return a * divideConquer(a, n / 2) * divideConquer(a, n / 2) + 2
 
 
 
-def PlotEx3():
-    global count
-    for i in range(len(fibx)):
-        count = 0
-        Fibonacci(fibx[i])
-        fiby[i] = count
+def PlotEx3(n):
+
+    for i in range(n):
+
+
 
     # plt.xlabel("Fibonacci numbers calculated")
     # plt.ylabel("Number of additions done")
@@ -218,7 +210,7 @@ def getOutput(i):
         n = int(input("Input exponent: "))
         print("Decrease-by-One: ", decreaseByOne(a, n))
         print("Decrease-by-Constant: ", DecreaseByConstant(a, n))
-        print("Divide-and-Conquer: ", DivideConquer(a, n))
+        print("Divide-and-Conquer: ", divideConquer(a, n))
 
     elif i == 's':
         n = int(input("Input array size: "))
@@ -240,9 +232,11 @@ def main():
     print("DBO: ")
     print(decreaseByOne(2, 5))
     print(dboMuls(2, 5))
-    plotDBO(10)
+    #plotDBO(10)
 
-
+    print("D&C: ")
+    print(divideConquer(2, 5))
+    print(dcMuls(2, 5))
 
     #instructions()
 
