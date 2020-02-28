@@ -8,6 +8,13 @@ import time
 
 counter = 0
 
+
+# -----------------------------------------------------------------------------
+# Beginning of Fibonacci/Euclid's task
+#
+# Lines 18 - 50 (Fibonacci)
+# Lines 53 - 77 (Euclid's)
+
 def Fibonacci(n):
     if n == 0:
         return 0
@@ -15,17 +22,22 @@ def Fibonacci(n):
         return 1
     return Fibonacci(n - 1) + Fibonacci(n - 2)
 
+
+# Calculates the number of additions for a fibonacci sequence to n
+
 def fibAdds(n):
     if n == 1:
         return 1
-    elif n==0:
+    elif n == 0:
         return 0
     return fibAdds(n - 1) + fibAdds(n - 2) + 1
+
+# Plots the fibonacci sequences additions given a range
 
 def PlotFib():
     fibx = []
     fiby = []
-    for i in range(1, 35):
+    for i in range(1, 8):
         fibx.append(i)
         fiby.append(fibAdds(i))
     print("FibValues: ", fibx)
@@ -36,23 +48,25 @@ def PlotFib():
     plt.title('Fibonacci Analysis')
     plt.show()
 
-
-
+# Formula for computing Euclid's, keeps track of operations through global counter
 
 def Euclids(a, b):
     global counter
-    if (b == 0):
+    if b == 0:
         return a
-    counter += 1
+    counter += 1  # Counter computes # of operations for algorithm
     return Euclids(b, a % b)
+
+
+# Produces a plot for Euclid's based on range 1 - 15
 
 def PlotEuc():
     global counter
     EucX = []
     EucY = []
-    for i in range(1, 35):
+    for i in range(1, 15):
         a = Fibonacci(i)
-        Euclids(Fibonacci(i+1), a)
+        Euclids(Fibonacci(i + 1), a)
         EucY.append(counter)
         EucX.append(a)
         counter = 0
@@ -62,33 +76,44 @@ def PlotEuc():
     plt.title('Euclids GCD Analysis')
     plt.show()
 
+# ------------------------------------------------------------------------------
+# Exponential task
+#
+# Lines 88 - 113 (Decrease-by-one)
+# Lines 117 - 148 (Decrease-by-constant)
+# Lines 153 - 179 (Divide-and-conquer)
+# Lines - (Plotting)
 
 def decreaseByOne(a, n):
     if n <= 0:
         return 1
     return a * decreaseByOne(a, n - 1)
 
+# Computes the number of multiplication done by Decrease-by-one
 
 def dboMuls(a, n):
-    if n <= 0:
+    if n == 0:
         return 0
-    return a * dboMuls(a, n - 1) + 1
+    return dboMuls(a, n - 1) + 1
 
+# Produces a plot for Decrease-by-one
 
 def plotDBO(n):
     numMuls = []
     dbo = []
 
-    for i in range(n):
-        #dbo.append(decreaseByOne(2, i))
-        dbo.append(decreaseByOne(2, i))
+    for i in range(1, 25):
+        dbo.append(i)
         numMuls.append(dboMuls(2, i))
-
+    if n == 1:
+        plot = plt.scatter(dbo, numMuls, c='red')
+        return plot
     plt.xlabel("Decrease-By-One")
     plt.ylabel("Decrease-By-One Multiplications")
     plt.scatter(dbo, numMuls)
     plt.show()
 
+# Computes the number of multiplication done by Decrease-by-constant
 
 def ComputeDBC(a, n):
     if n == 0:
@@ -97,6 +122,7 @@ def ComputeDBC(a, n):
         return (ComputeDBC(a, n / 2)) + 1
     return (ComputeDBC(a, (n - 1) / 2)) + 2
 
+# Decrease-by-constant formula for computing exponential
 
 def decreaseByConstant(a, n):
     if n <= 0:
@@ -106,54 +132,77 @@ def decreaseByConstant(a, n):
     else:
         return a * (decreaseByConstant(a, (n - 1) / 2) ** 2)
 
+# Produces a plot for Decrease-by-Constant
 
 def plotDBC(n):
     numMuls = []
     dbc = []
 
-    for i in range(n):
-        #dbc.append(decreaseByConstant(2, i))
+    for i in range(1, 25):
         dbc.append(i)
         numMuls.append(ComputeDBC(2, i))
-
+    if n == 1:
+        plot = plt.scatter(dbc, numMuls, c='green')
+        return plot
     plt.xlabel("Decrease-By-Constant")
     plt.ylabel("Decrease-By-Constant Multiplications")
     plt.scatter(dbc, numMuls)
     plt.show()
 
+# Decrease-by-constant formula for computing exponential, keeps track of amount of mults by counter
 
 def divideConquer(a, n):
+    global counter
     if n == 0:
         return 1
     elif n % 2 == 0:
+        counter += 1
         return divideConquer(a, n / 2) * divideConquer(a, n / 2)
     else:
+        counter += 2
         return a * divideConquer(a, (n - 1) / 2) * divideConquer(a, (n - 1) / 2)
 
-
-def computeDivC(a, n):
-    if n == 0:
-        return 0
-    elif n % 2 == 0:
-        return computeDivC(a, n / 2) + 1
-    else:
-        return computeDivC(a, (n - 1) / 2) + 2
-
+# Produces a plot for Divide-and-conquer
 
 def plotDivC(n):
+    global counter
     numMuls = []
     divC = []
 
-    for i in range(n):
-        #divC.append(divideConquer(2, i))
+    for i in range(1, 25):
         divC.append(i)
-        numMuls.append(computeDivC(2, i))
+        divideConquer(2, i)
+        numMuls.append(counter)
+        counter = 0
 
+
+    if n == 1:
+        plot = plt.scatter(divC, numMuls, c='blue')
+        return plot
     plt.xlabel("Divide-and-Conquer")
     plt.ylabel("Divide-and-Conquer Multiplications")
     plt.scatter(divC, numMuls)
     plt.show()
 
+def plotAll():
+    x = []
+    y = []
+    DC = plotDivC(1)
+    DbO = plotDBO(1)
+    DbC = plotDBC(1)
+    plt.legend((DbC, DbO, DC), ('Decrease By Constant Factors', 'Decrease by One', 'Decrease By Constant Factors', 'Divide and Conquer'))
+    plt.scatter(x, y)
+    plt.xlabel('Exponent of 2')
+    plt.ylabel('Multiplications')
+    plt.title('Side-by-Side-analysis')
+    plt.show()
+
+# -----------------------------------------------------------------------------
+# Sorting task
+#
+# Lines 187 - 196  (Selection Sort)
+# Lines 199 - 210 (Insertion Sort)
+# Lines 153 - 179 (Plotting)
 
 def SelectionSort(A):
     global counter
@@ -165,6 +214,7 @@ def SelectionSort(A):
                 min_idx = j
         A[i], A[min_idx] = A[min_idx], A[i]
     return A
+
 
 def InsertionSort(A):
     global counter
@@ -185,27 +235,29 @@ def DefaultPlotSorts():
     testCase('A')
     testCase('W')
 
+
 def testCase(test):
     list = []
     if test == 'B':
-        for i in range(2, 102):
+        for i in range(1, 50):
             tempList = []
             for j in range(1, i):
                 tempList.append(j)
             list.append(tempList)
     elif test == 'A':
-        for i in range(2, 102):
+        for i in range(1, 50):
             tempList = []
             for j in range(1, i):
-                tempList.append(randint(1, 1000))
+                tempList.append(randint(1, 500))
             list.append(tempList)
     else:
-        for i in range(102, 2, -1):
+        for i in range(1, 50):
             tempList = []
-            for j in range(i, i, -1):
-                tempList.append(j)
+            for j in range(1, i):
+                tempList.insert(0, j)
             list.append(tempList)
     plotSorts(list, test)
+
 
 def plotSorts(list, test):
     global counter
@@ -233,47 +285,63 @@ def plotSorts(list, test):
     plt.ylabel('Number of Swaps')
     plt.title(str(test) + ' Case for Insertion and Selection sort')
     plt.legend((plt.scatter(xInsertSort, yInsertSort, c='red'),
-                plt.scatter(xSelectSort, ySelectSort, c = 'purple')),
+                plt.scatter(xSelectSort, ySelectSort, c='purple')),
                ('Insertion Sort', 'Selection Sort'))
     plt.show()
 
-def instructions(s):
-    if s == "Default":
-        print("Please choose a mode. Enter 'user',"
-              " for user mode or 'plot', for plot mode (case sensitive):")
-    elif s == "user":
-        print("Type f for Fibonnaci function.")
-        print("Type g for GCD function.")
-        print("Type e for Exponentiation functions."
-              "   (Decrease-by-One, Decrease-by-Constant-Factor, and Divide-and-Conquer")
-        print("Type s for sorting functions."
-              "  (Insertion & Selection Sort)\n")
-        print("Type 'back' to return to the user/plot selection.")
-        print("Type x to exit the program.\n")
-    elif s == "plot":
-        print("Type fplot for Fibonnaci plot.")
-        print("Type gplot for GCD plot.")
-        print("Type eplot for Exponentiation plots."
-              "   (Decrease-by-One, Decrease-by-Constant-Factor, and Divide-and-Conquer")
-        print("Type splot for sorting plot."
-              "  (Insertion & Selection Sort)\n")
-        print("Type 'back' to return to the user/plot selection.")
-        print("Type x to exit the program.\n")
-    else:
-        print("Invalid prompt.")
+# ------------------------------------------------------------------------------
+# Main Functions
+#
+# Lines 88 - 113 (Decrease-by-one)
+# Lines 117 - 148 (Decrease-by-constant)
+# Lines 153 - 179 (Divide-and-conquer)
+
+def defaultInstructions():
+    print("Please choose a mode. Enter 'user',"
+          " for user mode or 'plot', for plot mode (case sensitive).")
+    print("Type x to exit the program.\n")
+
+
+def functionInstructions():
+    print("Type f for Fibonnaci function.")
+    print("Type g for GCD function.")
+    print("Type e for Exponentiation functions."
+          "   (Decrease-by-One, Decrease-by-Constant-Factor, and Divide-and-Conquer")
+    print("Type s for sorting functions."
+          "  (Insertion & Selection Sort)\n")
+    print("Type 'plot' to change  to plot mode.")
+    print("Type x to exit the program.\n")
+
+
+def plotInstructions():
+    print("Type fibPlot for Fibonnaci plot.")
+    print("Type gcdPlot for GCD plot.")
+    print("Type expPlot for Exponentiation plots together."
+          "   (Decrease-by-One, Decrease-by-Constant-Factor, and Divide-and-Conquer)")
+    print("Type sortPlot for sorting plot."
+          "  (Insertion & Selection Sort)\n")
+    print("Type DBO, DBC, or DC, to plot exponentiation separately")
+    print("Type 'user' to change to function mode.")
+    print("Type x to exit the program.\n")
+
 
 def getOutput(i):
-    if i == 'f':
+    if i == "user":
+        functionInstructions()
+
+    elif i == 'f':
         k = int(input("Input kth value of Fibonacci algorithm: "))
         print("kth value of Fibonacci: ", Fibonacci(k))
         print("Number of Adds: ", fibAdds(k), "\n")
-        return "user"
+        print()
+        time.sleep(3)
+        functionInstructions()
 
     elif i == 'g':
-        k = int(input("Input kth value of Fibonacci \n"
-                      "algorithm to get GCD: "))
-        print("GCD of k and k-1: ", Euclids(k, k - 1), "\n")
-        return "user"
+        k = int(input("Input kth value of Fibonacci algorithm to get GCD: "))
+        print("GCD of k and k-1: ", Euclids(k, k - 1))
+        time.sleep(3)
+        functionInstructions()
 
     elif i == 'e':
         a = int(input("Input constant: "))
@@ -281,34 +349,60 @@ def getOutput(i):
         print("Decrease-by-One: ", decreaseByOne(a, n))
         print("Decrease-by-Constant: ", decreaseByConstant(a, n))
         print("Divide-and-Conquer: ", divideConquer(a, n))
-        return "user"
+        print()
+        time.sleep(3)
+        functionInstructions()
 
     elif i == 's':
-        n = int(input("Input array size: "))
+        print("Enter numbers your values with spaces between them on the same line.")
         arr = [int(j) for j in input("Input n numbers in any order: ").split()]
         arr1 = arr
         InsertionSort(arr)
         SelectionSort(arr1)
         print("Selection Sort: ", arr1)
         print("Insertion Sort: ", arr)
-        return "user"
+        print()
+        time.sleep(3)
+        functionInstructions()
 
-    elif i == "back":
-        return "Default"
+    elif i == "plot":
+        plotInstructions()
+
+    elif i == 'fibPlot':
+        PlotFib()
+        plotInstructions()
+
+    elif i == 'gcdPlot':
+        PlotEuc()
+        plotInstructions()
+
+    elif i == 'expPlot':
+        plotAll()
+        plotInstructions()
+
+    elif i == 'DBO':
+        plotDBO(2)
+
+    elif i == 'DBC':
+        plotDBC(2)
+
+    elif i == 'DC':
+        plotDivC(2)
+
+    elif i == 'sortPlot':
+        DefaultPlotSorts()
+        plotInstructions()
+
+    else:
+        print("Invalid input.")
+
 
 def main():
-
-    userInput = "Default"
-    instructions(userInput)
+    defaultInstructions()
     userInput = input("Input: ")
-
     while userInput.lower() != "x":
-        if type(userInput) != str:
-            print("Please type one of the letters to access the options: ")
-        else:
-            s = getOutput(userInput)
-        time.sleep(3)
-        instructions(s)
+        getOutput(userInput)
+        time.sleep(2)
         userInput = input("Input: ")
 
 
