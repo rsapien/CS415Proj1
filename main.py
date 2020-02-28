@@ -3,65 +3,64 @@
 # Date: 28 February 2020
 
 import matplotlib.pyplot as plt
+from random import *
 import time
 
 counter = 0
 
 def Fibonacci(n):
-    if n <= 1:
-        return n
+    if n == 0:
+        return 0
+    elif n == 1:
+        return 1
     return Fibonacci(n - 1) + Fibonacci(n - 2)
 
-
 def fibAdds(n):
-    if n <= 1:
+    if n == 1:
+        return 1
+    elif n==0:
         return 0
     return fibAdds(n - 1) + fibAdds(n - 2) + 1
 
-
-def PlotFib(n):
-    FibValues = []
+def PlotFib():
+    fibx = []
     fiby = []
-    for i in range(n):
-        FibValues.append(Fibonacci(i))
+    for i in range(1, 35):
+        fibx.append(i)
         fiby.append(fibAdds(i))
-
-    print("FibValues: ", FibValues)
+    print("FibValues: ", fibx)
     print("fiby: ", fiby)
-    plt.xlabel("Fibonacci numbers calculated")
-    plt.ylabel("Number of additions done\n")
-    plt.plot(FibValues, fiby)
+    plt.scatter(fibx, fiby)
+    plt.xlabel('Index of Fibonacci Number')
+    plt.ylabel('Number of Additions')
+    plt.title('Fibonacci Analysis')
     plt.show()
 
 
+
+
 def Euclids(a, b):
+    global counter
     if (b == 0):
         return a
-    else:
-        return Euclids(b, a % b)
+    counter += 1
+    return Euclids(b, a % b)
 
-
-def ComputeEuc(a, b):
-    if (b == 0):
-        return 0
-    else:
-        return Euclids(b, a % b) + 1
-
-
-def PlotEuc(n):
+def PlotEuc():
+    global counter
     EucX = []
     EucY = []
-    i = 1
-    for i in range(n):
+    for i in range(1, 35):
         a = Fibonacci(i)
-        b = Fibonacci(i - 1)
-        count = ComputeEuc(a, b)
-        EucY.append(count)
+        Euclids(Fibonacci(i+1), a)
+        EucY.append(counter)
         EucX.append(a)
-
-    plt.xlabel("Euclid's numbers calculated")
-    plt.ylabel("Number of divisons")
-    plt.plot(EucX, EucY)
+        counter = 0
+    plt.scatter(EucX, EucY)
+    plt.xlabel('n')
+    plt.ylabel('Number of Modulo')
+    plt.title('Euclids GCD Analysis')
+    plt.show()
 
 
 def decreaseByOne(a, n):
@@ -81,12 +80,13 @@ def plotDBO(n):
     dbo = []
 
     for i in range(n):
+        #dbo.append(decreaseByOne(2, i))
         dbo.append(decreaseByOne(2, i))
         numMuls.append(dboMuls(2, i))
 
     plt.xlabel("Decrease-By-One")
     plt.ylabel("Decrease-By-One Multiplications")
-    plt.plot(dbo, numMuls)
+    plt.scatter(dbo, numMuls)
     plt.show()
 
 
@@ -94,7 +94,7 @@ def ComputeDBC(a, n):
     if n == 0:
         return 0
     elif n % 2 == 0:
-        return (ComputeDBC(a, n / 2)) + 2
+        return (ComputeDBC(a, n / 2)) + 1
     return (ComputeDBC(a, (n - 1) / 2)) + 2
 
 
@@ -118,7 +118,7 @@ def plotDBC(n):
 
     plt.xlabel("Decrease-By-Constant")
     plt.ylabel("Decrease-By-Constant Multiplications")
-    plt.plot(dbc, numMuls)
+    plt.scatter(dbc, numMuls)
     plt.show()
 
 
@@ -151,68 +151,129 @@ def plotDivC(n):
 
     plt.xlabel("Divide-and-Conquer")
     plt.ylabel("Divide-and-Conquer Multiplications")
-    plt.plot(divC, numMuls)
+    plt.scatter(divC, numMuls)
     plt.show()
 
 
-
 def SelectionSort(A):
-    incr = 0
+    global counter
     for i in range(len(A)):
         min_idx = i
         for j in range(i + 1, len(A)):
+            counter += 1
             if A[min_idx] > A[j]:
                 min_idx = j
-            incr += 1
         A[i], A[min_idx] = A[min_idx], A[i]
+    return A
 
-
-def PlotSelection():
-    pass
-
-def PlotInsertSort():
-    global count
-    # for i in range(len(fibx)):
-    #   count = 0
-    #  Fibonacci(fibx[i])
-    # fiby[i] = count
-
-    # plt.xlabel("Fibonacci numbers calculated")
-    # plt.ylabel("Number of additions done")
-    # plt.plot(fibx, fiby)
-    # plt.show()
-
-
-def InsertionSort(arr):
-    for i in range(1, len(arr)):
-        key = arr[i]
+def InsertionSort(A):
+    global counter
+    for i in range(len(A)):
+        key = A[i]
         j = i - 1
-        while j >= 0 and key < arr[j]:
-            arr[j + 1] = arr[j]
+        counter += 2
+        while j >= 0 and key < A[j]:
+            counter += 2
+            A[j + 1] = A[j]
             j -= 1
-        arr[j + 1] = key
+        A[j + 1] = key
+    return A
 
 
-def instructions():
-    print("Type f for Fibonnaci function.")
-    print("Type g for GCD function.")
-    print("Type e for Exponentiation functions."
-          "   (Decrease-by-One, Decrease-by-Constant-Factor, and Divide-and-Conquer")
-    print("Type s for sorting functions."
-          "  (Insertion & Selection Sort)\n")
-    print("Type x to exit the program.\n")
+def DefaultPlotSorts():
+    testCase('B')
+    testCase('A')
+    testCase('W')
 
+def testCase(test):
+    list = []
+    if test == 'B':
+        for i in range(2, 102):
+            tempList = []
+            for j in range(1, i):
+                tempList.append(j)
+            list.append(tempList)
+    elif test == 'A':
+        for i in range(2, 102):
+            tempList = []
+            for j in range(1, i):
+                tempList.append(randint(1, 1000))
+            list.append(tempList)
+    else:
+        for i in range(102, 2, -1):
+            tempList = []
+            for j in range(i, i, -1):
+                tempList.append(j)
+            list.append(tempList)
+    plotSorts(list, test)
+
+def plotSorts(list, test):
+    global counter
+    xInsertSort = []
+    yInsertSort = []
+    xSelectSort = []
+    ySelectSort = []
+    for i in range(len(list)):
+        InsertionSort((list[i]))
+        yInsertSort.append(counter)
+        xInsertSort.append(len(list[i]))
+    counter = 0
+    for i in range(len(list)):
+        SelectionSort(list[i])
+        ySelectSort.append(counter)
+        xSelectSort.append(len(list[i]))
+    counter = 0
+    if test == 'A':
+        test = 'Average (random values)'
+    elif test == 'B':
+        test = 'Best (Sorted values)'
+    else:
+        test = 'Worst (Reversed Order)'
+    plt.xlabel('Size of List')
+    plt.ylabel('Number of Swaps')
+    plt.title(str(test) + ' Case for Insertion and Selection sort')
+    plt.legend((plt.scatter(xInsertSort, yInsertSort, c='red'),
+                plt.scatter(xSelectSort, ySelectSort, c = 'purple')),
+               ('Insertion Sort', 'Selection Sort'))
+    plt.show()
+
+def instructions(s):
+    if s == "Default":
+        print("Please choose a mode. Enter 'user',"
+              " for user mode or 'plot', for plot mode (case sensitive):")
+    elif s == "user":
+        print("Type f for Fibonnaci function.")
+        print("Type g for GCD function.")
+        print("Type e for Exponentiation functions."
+              "   (Decrease-by-One, Decrease-by-Constant-Factor, and Divide-and-Conquer")
+        print("Type s for sorting functions."
+              "  (Insertion & Selection Sort)\n")
+        print("Type 'back' to return to the user/plot selection.")
+        print("Type x to exit the program.\n")
+    elif s == "plot":
+        print("Type fplot for Fibonnaci plot.")
+        print("Type gplot for GCD plot.")
+        print("Type eplot for Exponentiation plots."
+              "   (Decrease-by-One, Decrease-by-Constant-Factor, and Divide-and-Conquer")
+        print("Type splot for sorting plot."
+              "  (Insertion & Selection Sort)\n")
+        print("Type 'back' to return to the user/plot selection.")
+        print("Type x to exit the program.\n")
+    else:
+        print("Invalid prompt.")
 
 def getOutput(i):
     if i == 'f':
         k = int(input("Input kth value of Fibonacci algorithm: "))
         print("kth value of Fibonacci: ", Fibonacci(k))
-        print("Number of Adds: ", count, "\n")
+        print("Number of Adds: ", fibAdds(k), "\n")
+        return "user"
 
     elif i == 'g':
         k = int(input("Input kth value of Fibonacci \n"
                       "algorithm to get GCD: "))
         print("GCD of k and k-1: ", Euclids(k, k - 1), "\n")
+        return "user"
 
     elif i == 'e':
         a = int(input("Input constant: "))
@@ -220,6 +281,7 @@ def getOutput(i):
         print("Decrease-by-One: ", decreaseByOne(a, n))
         print("Decrease-by-Constant: ", decreaseByConstant(a, n))
         print("Divide-and-Conquer: ", divideConquer(a, n))
+        return "user"
 
     elif i == 's':
         n = int(input("Input array size: "))
@@ -229,42 +291,25 @@ def getOutput(i):
         SelectionSort(arr1)
         print("Selection Sort: ", arr1)
         print("Insertion Sort: ", arr)
+        return "user"
 
+    elif i == "back":
+        return "Default"
 
 def main():
-    print("Fibonacci: ")
-    print(Fibonacci(5))
-    print(fibAdds(5))
-    PlotFib(20)
 
-    print("DBO: ")
-    print(decreaseByOne(2, 5))
-    print(dboMuls(2, 5))
-    plotDBO(50)
+    userInput = "Default"
+    instructions(userInput)
+    userInput = input("Input: ")
 
-    print("DBC: ")
-    print(decreaseByConstant(2, 5))
-    print(ComputeDBC(2, 5))
-    plotDBC(50)
-
-    print("DAC: ")
-    print(divideConquer(2, 5))
-    print(computeDivC(2, 5))
-    plotDivC(200)
-    # instructions()
-
-    # uInput = input("Input: ")
-
-    # while uInput.lower() != "x":
-    # if type(uInput) != str:
-    # print("Please type one of the letters to access the functions: ")
-
-    # else:
-    # getOutput(uInput)
-
-    # time.sleep(3)
-    # instructions()
-    # uInput = input("Input: ")
+    while userInput.lower() != "x":
+        if type(userInput) != str:
+            print("Please type one of the letters to access the options: ")
+        else:
+            s = getOutput(userInput)
+        time.sleep(3)
+        instructions(s)
+        userInput = input("Input: ")
 
 
 main()
