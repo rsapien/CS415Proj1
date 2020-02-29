@@ -12,8 +12,8 @@ counter = 0
 # -----------------------------------------------------------------------------
 # Beginning of Fibonacci/Euclid's task
 #
-# Lines 18 - 50 (Fibonacci)
-# Lines 53 - 77 (Euclid's)
+# Lines 18 - 48 (Fibonacci)
+# Lines 52 - 76 (Euclid's)
 
 def Fibonacci(n):
     if n == 0:
@@ -21,7 +21,6 @@ def Fibonacci(n):
     elif n == 1:
         return 1
     return Fibonacci(n - 1) + Fibonacci(n - 2)
-
 
 # Calculates the number of additions for a fibonacci sequence to n
 
@@ -37,13 +36,13 @@ def fibAdds(n):
 def PlotFib():
     fibx = []
     fiby = []
-    for i in range(1, 8):
+    for i in range(1, 10):
         fibx.append(i)
         fiby.append(fibAdds(i))
     print("FibValues: ", fibx)
     print("fiby: ", fiby)
     plt.scatter(fibx, fiby)
-    plt.xlabel('Index of Fibonacci Number')
+    plt.xlabel('Fibonacci Number Index')
     plt.ylabel('Number of Additions')
     plt.title('Fibonacci Analysis')
     plt.show()
@@ -72,17 +71,17 @@ def PlotEuc():
         counter = 0
     plt.scatter(EucX, EucY)
     plt.xlabel('n')
-    plt.ylabel('Number of Modulo')
+    plt.ylabel('Number of mod Divisions')
     plt.title('Euclids GCD Analysis')
     plt.show()
 
 # ------------------------------------------------------------------------------
 # Exponential task
 #
-# Lines 88 - 113 (Decrease-by-one)
-# Lines 117 - 148 (Decrease-by-constant)
-# Lines 153 - 179 (Divide-and-conquer)
-# Lines - (Plotting)
+# Lines 86 - 113 (Decrease-by-one)
+# Lines 117 - 149 (Decrease-by-constant)
+# Lines 153 - 184 (Divide-and-conquer)
+# Lines 186 - 197 (Plotting)
 
 def decreaseByOne(a, n):
     if n <= 0:
@@ -108,7 +107,7 @@ def plotDBO(n):
     if n == 1:
         plot = plt.scatter(dbo, numMuls, c='red')
         return plot
-    plt.xlabel("Decrease-By-One")
+    plt.xlabel("Exponent of 2")
     plt.ylabel("Decrease-By-One Multiplications")
     plt.scatter(dbo, numMuls)
     plt.show()
@@ -144,7 +143,7 @@ def plotDBC(n):
     if n == 1:
         plot = plt.scatter(dbc, numMuls, c='green')
         return plot
-    plt.xlabel("Decrease-By-Constant")
+    plt.xlabel("Exponent of 2")
     plt.ylabel("Decrease-By-Constant Multiplications")
     plt.scatter(dbc, numMuls)
     plt.show()
@@ -179,7 +178,7 @@ def plotDivC(n):
     if n == 1:
         plot = plt.scatter(divC, numMuls, c='blue')
         return plot
-    plt.xlabel("Divide-and-Conquer")
+    plt.xlabel("Exponent of 2")
     plt.ylabel("Divide-and-Conquer Multiplications")
     plt.scatter(divC, numMuls)
     plt.show()
@@ -200,9 +199,9 @@ def plotAll():
 # -----------------------------------------------------------------------------
 # Sorting task
 #
-# Lines 187 - 196  (Selection Sort)
+# Lines 202 - 215  (Selection Sort)
 # Lines 199 - 210 (Insertion Sort)
-# Lines 153 - 179 (Plotting)
+# Lines 231 - 288 (Plotting)
 
 def SelectionSort(A):
     global counter
@@ -215,15 +214,14 @@ def SelectionSort(A):
         A[i], A[min_idx] = A[min_idx], A[i]
     return A
 
-
 def InsertionSort(A):
     global counter
     for i in range(len(A)):
         key = A[i]
         j = i - 1
-        counter += 2
+        counter += 1
         while j >= 0 and key < A[j]:
-            counter += 2
+            counter += 1
             A[j + 1] = A[j]
             j -= 1
         A[j + 1] = key
@@ -292,9 +290,9 @@ def plotSorts(list, test):
 # ------------------------------------------------------------------------------
 # Main Functions
 #
-# Lines 88 - 113 (Decrease-by-one)
-# Lines 117 - 148 (Decrease-by-constant)
-# Lines 153 - 179 (Divide-and-conquer)
+# Lines 297 - 323 (Instructions)
+# Lines 326 - 395 (Output)
+# Lines 398 - 404 (main)
 
 def defaultInstructions():
     print("Please choose a mode. Enter 'user',"
